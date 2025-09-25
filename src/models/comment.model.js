@@ -10,10 +10,8 @@ const CommentSchema = new Schema({
         maxlength: 500
     },
     author:{
-        //ref: a user
-    },
-    article:{
-        //ref: a article
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     },
     article:{
         type: Schema.Types.ObjectId,

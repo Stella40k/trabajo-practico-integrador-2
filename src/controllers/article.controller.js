@@ -57,9 +57,34 @@ export const articleUpdate = async(req, res)=>{
         const{title, content, excerpt, author}= req.body;
         const article = await articleModel.findByIdAndUpdate(
             req.params.id,
-            {title, content, excerpt}
-        )
+            {title, content, excerpt},
+            {new: true}
+        );
+        return res.status(200).json({
+            ok: true,
+            msg: "Articulo actualizado!",
+            data: article
+        });
     } catch (error) {
-        
+        //cosole.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: "Error al actuaizar el articulo"
+        });
     }
-}
+};
+export const deleteArticle = async(req, res)=>{
+    try {
+        const article = await articleModel.findByIdAndDelete(req.params.id);
+        return res.status(200).json({
+            ok: true,
+            msg: "Articulo eliminada!"
+        });
+    } catch (error) {
+        //console.log(error)
+        res.status(501).json({
+            ok: false,
+            msg: "Error al eliminar la etiqueta"
+        });
+    }
+};

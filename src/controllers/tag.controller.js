@@ -54,7 +54,7 @@ export const updateTag = async(req, res)=>{
     try {
 
         const{name, description}=req.body;
-        const updateTag = await tagModel.findByIdAndUpdate(
+        const update = await tagModel.findByIdAndUpdate(
         req.params.id,
         {name, description},
         {new: true}
@@ -64,8 +64,8 @@ export const updateTag = async(req, res)=>{
         return res.status(200).json({
             ok: true,
             msg: "Etiqueta actualizada!",
-            data: updateTag
-        });
+            data: update
+            });
     } catch (error) {
         console.log(error)
         res.status(501).json({
@@ -76,7 +76,7 @@ export const updateTag = async(req, res)=>{
 };
 export const deleteTag = async(req, res)=>{
     try {
-        const deleteTag = await tagModel.findByIdAndDelete(req.params.id);
+        const tag = await tagModel.findByIdAndDelete(req.params.id);
         return res.status(200).json({
             ok: true,
             msg: "Etiqueta eliminada!"
