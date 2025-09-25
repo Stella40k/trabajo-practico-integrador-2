@@ -27,7 +27,7 @@ export const getComment = async (req, res) => {
 export const updateComment = async (req, res) => {
   try {
     const { content, author, article } = req.body;
-    const updaate = await commentModel.findByIdAndUpdate(
+    const update = await commentModel.findByIdAndUpdate(
       req.params.id,
       { content },
       { new: true }
@@ -35,7 +35,7 @@ export const updateComment = async (req, res) => {
     return res.status(200).json({
       ok: true,
       msg: "Comentario actualizada!",
-      data: updaate43,
+      data: update,
     });
   } catch (error) {
     console.log(error);

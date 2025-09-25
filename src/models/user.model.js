@@ -6,19 +6,19 @@ const { Schema, model } = mongoose;
 const ProfileSchema = new Schema({
     firstName:{
         type: String,
-        minlength: 2,
+        minlength: 3,
         maxlength: 50,
         trim: true
     },
     lastName:{
         type: String,
-        minlength: 2,
+        minlength: 3,
         maxlength: 50,
         trim: true
     },
     biography:{
         type: String,
-        minlength: 2,
+        minlength: 3,
         maxlength: 500
     },
     avatarUrl:{

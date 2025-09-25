@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 import { Schema, model } from "mongoose";
-import { userModel } from "./user.model.js";
-import {articleModel} from "./article.model.js"
 
 const CommentSchema = new Schema({
     content:{
