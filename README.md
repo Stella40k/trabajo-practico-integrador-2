@@ -83,3 +83,7 @@ metofo de mongoose que reemplaza los objectsId por documentos completos a los q 
 _EMBEBIDO_
 
 otro metodo que trae una sola cosa por automatico, se usa cuando los hijos son limitados y con una sola consulta traes todo.po
+
+populate inverso
+ord y odm
+creacion de tokens

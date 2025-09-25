@@ -9,7 +9,7 @@ export const generateToken = (user) =>{
             },
             process.env.JWT_SECRET,
             {
-                expiresIn: "15min"
+                expiresIn: "1h"
             }
         );
         return token;
