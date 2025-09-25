@@ -1,0 +1,29 @@
+import jwt from "jsonwebtoken";
+
+export const generateToken = (user) =>{
+    try {
+        const token = jwt.sing(
+            {
+                id: user.id,
+                role: user.role
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "15min"
+            }
+        );
+        return token;
+    } catch (error) {
+        console.log("error al generar el token", error);
+        throw new Error("Error al generar el token");
+    }
+};
+export const verifyToken = (token)=>{
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        return decoded;
+    } catch (error) {
+    console.log("error al verificar el token", error);
+    throw new Error("Token invalido o expirado");        
+    }
+};
