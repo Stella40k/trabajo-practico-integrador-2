@@ -1,3 +1,4 @@
+        ORGANIZAR TODO EL README!!!!
 ●Relación 1:1 embebida: User ↔ Profile (profile embebido en User)
 ● Relación 1:N referenciada: User → Article (author referenciado)
 ● Relación 1:N referenciada: Article → Comment (article referenciado)
@@ -84,6 +85,29 @@ _EMBEBIDO_
 
 otro metodo que trae una sola cosa por automatico, se usa cuando los hijos son limitados y con una sola consulta traes todo.po
 
-populate inverso
-ord y odm
-creacion de tokens
+* buscar mas:
+● Validar que solo el autor pueda editar sus artículos/comentarios (excepto admin).
+● Verificar existencia de etiquetas antes de asociarlas a artículos.
+● Validar que el artículo exista antes de crear comentarios.
+
+* Middleware y validaciones (notas :P)
+un middle es una funcion que tiene acceso al objeto de solicitud(req), a la respuesta(res) y a la siguiente funcion del middle en el circulo de solicitud-respuesta(es lo q va en medio como dijo el profe).
+no solo sirve para revisar las consultas y respuestas tambien ayuda a declarar los limites en las rutas, ej:
+// Esta ruta REQUIERE autenticación
+router.get('/profile', requireAuth, (req, res) => {
+    res.json({ message: "Perfil del usuario" });
+});
+si no estas autenticado no podes parar o ver lo q hay en esa parte. Es una ruta PRIVADA o  que tiene LIMITES
+//esta ruta NO requiere autenticacion
+router.get('/public', (req, res) => {
+    res.json({ message: "Información pública" });
+});
+es una ruta publica, pueden acceder todos los usuarios sin importar el role:P
+
+Populate inverso(virtual populate):
+__________________
+examen------------|
+populate inverso  |
+ord y odm         |
+creacion de tokens|
+------------------|

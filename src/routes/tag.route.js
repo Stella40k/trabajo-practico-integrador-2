@@ -13,3 +13,5 @@ tagRouter.get("/tags", allTags );
 tagRouter.get("/tag/:id", TagById);
 tagRouter.put("/tag/:id", updateTag);
 tagRouter.delete("/tag/:id", deleteTag); 
+
+//corregir para hacer q tenga sentido con la consigna

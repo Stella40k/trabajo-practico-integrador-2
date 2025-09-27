@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator";
 import { generateToken } from "../helpers/jwt.helper.js";
-import { hashPassword, comparePasswords, hashPassword } from "../helpers/bcrypt.helper.js";
+import { comparePasswords, hashPassword } from "../helpers/bcrypt.helper.js";
 import { userModel } from "../models/user.model.js";
 
 export const registerUser = async(req, res)=>{
