@@ -105,6 +105,155 @@ router.get('/public', (req, res) => {
 es una ruta publica, pueden acceder todos los usuarios sin importar el role:P
 
 Populate inverso(virtual populate):
+En bases de datos relacionales, puedes hacer JOINs. En MongoDB, no existen los JOINs nativos. El populate inverso simula esta funcionalidad.
+// Cuando haces:
+article.populate('comments');
+
+// Mongoose internamente hace:
+Comment.find({ article: article._id })
+    .then(comments => {
+        article.comments = comments;
+    });
+
+Virtual vs embebido
+// EMBEDDED (documentos dentro del documento)
+{
+    _id: "art123",
+    title: "Mi artículo",
+    comments: [  // ❌ Los comentarios vienen EMBEBIDOS
+        { text: "Buen artículo", user: "user1" },
+        { text: "Interesante", user: "user2" }
+    ]
+}
+
+// VIRTUAL POPULATE (referencias + populate)
+{
+    _id: "art123", 
+    title: "Mi artículo"
+    //comments NO está aquí físicamente
+}
+//con populate, Mongoose busca los comentarios relacionados
+
+ventajas y desventajas de populate: 
+Separación de concerns: Comentarios independientes
+Escalabilidad: No limita el tamaño del documento
+Flexibilidad: Puedes traer solo algunos comentarios
+
+_ORM y ODM_
+* ORM (Object-Relational Mapping):
+Problema que resuelve: El impedancia objeto-relacional - la diferencia entre el modelo orientado a objetos y el modelo relacional.
+
+Cómo funciona:
+
+text
+Objeto JavaScript → ORM → Sentencia SQL → Base de datos
+ej: 
+// En tu código (JavaScript)
+const user = new User();
+user.name = "Ana";
+user.save();
+
+// El ORM traduce a:
+INSERT INTO users (name) VALUES ('Ana');
+
+* Características ORM:
+
+Mapeo objeto-tabla: Cada clase → tabla
+
+Relaciones: hasMany, belongsTo, etc.
+
+Migraciones: Control de cambios en esquema
+
+Transacciones: ACID properties
+
+* ODM (Object-Document Mapping):
+Problema que resuelve: Mapear objetos a documentos NoSQL.
+
+Cómo funciona:
+
+text
+Objeto JavaScript → ODM → Documento BSON → MongoDB
+diferencias: 
+Aspecto	ORM (SQL)	ODM (MongoDB)
+Estructura	Tablas y filas	Colecciones y documentos
+Esquema	Fijo y rígido	Flexible y dinámico
+Relaciones	JOINs explícitos	Referencias o embebido
+Consistencia	ACID fuerte	Eventual consistency
+Escalabilidad	Vertical	Horizontal
+
+_JWT_
+Es un estándar abierto (RFC 7519) que define un método compacto y autónomo para transmitir información de forma segura entre partes como un objeto JSON.
++ Flujo de autenticacion:
+Login: Usuario envía credenciales
+
+Verificación: Servidor valida credenciales
+
+Generación: Servidor crea JWT con datos del usuario
+
+Envío: JWT se envía al cliente
+
+Almacenamiento: Cliente guarda JWT (localStorage, cookies)
+
+Verificación posterior: Cliente envía JWT en cada request
+
+Validación: Servidor verifica la firma del JWT
+
+_OPERADORES_ 
+* Operadores de Comparación:
+ Permiten comparar valores según criterios específicos.
+* Operadores Lógicos:
+ Implementan álgebra booleana
+* Operadores de Arrays:
+ Manipulan conjuntos según teoría de conjuntos.
+implementacion: Cómo MongoDB procesa los operadores internamente:
+db.users.find({ age: { $gt: 18, $lt: 30 } });
+
+// MongoDB internamente:
+1. Escaneo de colección
+2. Aplicación de predicados por cada documento
+3. Filtrado según condiciones
+4. Retorno de resultados
+* Teoria nhotas:
+Validación vs Verificación:
+Validación: "¿Estamos construyendo el producto correcto?"
+
+Ejemplo: El email tiene formato válido
+
+Verificación: "¿Estamos construyendo el producto correctamente?"
+
+Ejemplo: El usuario existe en la base de datos
+
+Capas de Validación:
+1. Validación del Cliente (Frontend):
+Propósito: Mejorar experiencia de usuario
+
+Ejemplo: Validación en tiempo real en formularios
+
+Limitación: Fácil de eludir
+
+2. Validación del Servidor (Backend):
+Propósito: Seguridad e integridad de datos
+
+Ejemplo: Express validator, Joi
+
+Característica: Obligatoria
+
+3. Validación de Base de Datos:
+Propósito: Última línea de defensa
+
+Ejemplo: Esquemas de Mongoose, constraints de SQL
+
+Ventaja: Independiente del código de aplicación
+
+Principios de Validación:
+Defensa en profundidad: Múltiples capas de validación
+
+Principio del menor privilegio: Validar solo lo necesario
+
+Fail-fast: Fallar rápidamente ante entradas inválidas
+
+Validación positiva: Definir lo que SÍ se permite
+
 __________________
 examen------------|
 populate inverso  |
@@ -132,3 +281,13 @@ export const ownerOrAdmin = (model) => {
     };
 };
 cuando escribo ownerOrAdmin(articleModel) js lo ejecuta con el article como parametro, retorna una nueva funcion especifica para articles(preguntar mas) y esa funcion queda listo para usarlo en la ruta
+
+_INSTALACION:_
+
+1. clonar el repositorio
+2. Instalar las dependencias con npm install
+3.  Configura las variables de entorno:
+   PORT=
+   MONGODB_URI=
+   JWT_SECRET=
+4. Iniciar el servidor con npm run dev
