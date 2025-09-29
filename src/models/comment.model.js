@@ -4,20 +4,23 @@ import { Schema, model } from "mongoose";
 const CommentSchema = new Schema({
     content:{
         type: String,
-        minlength: 5,
+        required: true,
+        minlength: 1,
         maxlength: 500
     },
     author:{
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true 
     },
     article:{
         type: Schema.Types.ObjectId,
-        ref: 'Article'
+        ref: 'Article',
+        required: true 
     }
 },{
     timestamps: true,
     versionKey: false
 });
 
-export const commentModel = mongoose.model("Comments", CommentSchema)
+export const commentModel = mongoose.model("Comment", CommentSchema)

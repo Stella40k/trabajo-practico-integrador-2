@@ -1,5 +1,3 @@
-import { userModel } from "../models/user.model.js"
-
 export const ownerOrAdmin =(model) =>
     {return async(req, res, next)=>{
         try {

@@ -111,3 +111,24 @@ populate inverso  |
 ord y odm         |
 creacion de tokens|
 ------------------|
+* como saber que las rutas son privadas y publicas:
+Operación	|HTTP Method   |   publica o privada?  |  pq
+Leer/Ver	|GET	         | Pública (generalmente)|	Porque cualquiera puede ver contenido
+Crear	POST	|POST  	   |       Privada         | Porque modifica la base de datos
+Actualizar	|PUT/PATCH	   |       Privada	   | Porque modifica datos existentes
+Eliminar	|DELETE	   |       Privada	   | Porque es destructivo
+------------|--------------|-----------------------|---------------------------------------------
+
+ruta publica: sin middlewares
+ruta protegido: autenticacion basica(validateToken, createArticle)
+ruta con permisos: auterizaciones(validateToken, ownerOrAdmin(articleModel), updateArticle)
+
+ownerOrAdmin(articleModel): 
+// Esto es una "Fábrica de Middlewares"
+export const ownerOrAdmin = (model) => {
+    return async (req, res, next) => {
+        // Este middleware se crea DINÁMICAMENTE
+        // para el modelo específico que le pasemos
+    };
+};
+cuando escribo ownerOrAdmin(articleModel) js lo ejecuta con el article como parametro, retorna una nueva funcion especifica para articles(preguntar mas) y esa funcion queda listo para usarlo en la ruta

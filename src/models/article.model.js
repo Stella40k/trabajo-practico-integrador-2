@@ -5,6 +5,7 @@ import { Schema, model } from "mongoose";
 const ArticleSchema = new Schema({
     title:{
         type: String,
+        required: true,
         minLength: 3,
         maxlength: 200
     },
@@ -21,13 +22,23 @@ const ArticleSchema = new Schema({
     //a quien pertenece
     author:{
         type: Schema.Types.ObjectId,
-        ref: 'User' 
+        ref: 'User' ,
+        required: true
     },
     //m:m
     tags: [{
         type: Schema.Types.ObjectId,
-        ref: 'Tag'
-    }]
+        ref: 'Tag',
+        required: true
+    }],
+    status: {
+        type: String,
+        enum: ['draft', 'published', 'archived'],
+        default: 'draft'
+    }
+},{
+    timestamps: true,
+    versionKey: false
 });
 
 export const articleModel = mongoose.model("Articles", ArticleSchema);

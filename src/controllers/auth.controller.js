@@ -8,19 +8,19 @@ export const registerUser = async(req, res)=>{
         const {username, email, role, password, profile } = req.body
 
         //constante nueva q espera la contrasela para hashear
-        const hashPassword = await hashPassword(password);
+        const hashedPassword = await hashPassword(password);
 
-        const newUser = await userModel.create({
+        const userWhithPassword = await userModel.create({
             username,
             email,
-            password: hashPassword,
+            password: hashedPassword,
             role,
             profile
         }).select('-password');
         res.status(201).json({
             ok: true,
             msg:"Usuario creado",
-            data: newUser
+            data: hashedPassword
         })
     } catch (error) {
         console.log(error)
@@ -82,21 +82,37 @@ export const getUserProfile = async(req, res)=>{
 };
 export const updateUserProfile = async(req, res)=>{
     try {
+        const userId = req.userLog.id; 
         const{firstName, lastName, biography, avatarUrl, birthDate}=req.body.profile;
         const updateProfile = await userModel.findByIdAndUpdate(
             userId,
             {
-                //toda la desestructuracion del lo q se actualiza
+                $set: {
+                    'profile.firstName': firstName,
+                    'profile.lastName': lastName,
+                    'profile.biography': biography,
+                    'profile.avatarUrl': avatarUrl,
+                    'profile.birthDate': birthDate
+                }
             },
-            {new: true,
+            {
+                new: true,
+                runValidators: true
             }
-        )
-
+        ).select('-password');
+        return res.status(200).json({
+            ok: true,
+            msg: "Perfil actualizado",
+            data: updateProfile
+        });
     } catch (error) {
-        //console.log(error)
-        
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: "Error al actualizar el perfil"
+        });  
     }
-}
+};
 export const logout = async(req, res)=>{
     try {
         res.clearCookie("token");
