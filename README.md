@@ -290,4 +290,4 @@ _INSTALACION:_
    PORT=
    MONGODB_URI=
    JWT_SECRET=
-4. Iniciar el servidor con npm run dev
+4. Iniciar el servidor con npm run dev.
